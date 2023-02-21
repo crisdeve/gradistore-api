@@ -1,26 +1,13 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Query,
-  NotFoundException,
-} from '@nestjs/common';
-import { Helpers } from '../utils/helpers';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ShopifyService } from './shopify.service';
 
 @Controller('shopify')
 export class ShopifyController {
   last = null;
-  constructor(
-    private readonly shopifyService: ShopifyService,
-    private helper: Helpers,
-  ) {}
+  constructor(private readonly shopifyService: ShopifyService) {}
 
   @Get(':collectionId')
-  async search(
-    @Param('collectionId') collectionId: number,
-    @Query('order') order: string,
-  ) {
-    return this.shopifyService.orderingProducts(collectionId);
+  async search(@Param('collectionId') collectionId: number) {
+    return this.shopifyService.getProductsByCollection(collectionId);
   }
 }

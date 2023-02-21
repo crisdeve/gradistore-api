@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ShopifyModule } from 'src/shopify/shopify.module';
-import { ProductsService } from './products.service';
-import { ProductsController } from './products.controller';
+import { OrdersController } from './orders.controller';
+import { OrdersService } from './orders.service';
 
 @Module({
   imports: [ScheduleModule.forRoot(), ShopifyModule],
-  providers: [ProductsService],
-  controllers: [ProductsController],
+  providers: [OrdersService],
+  controllers: [OrdersController],
 })
-export class ProductsModule {}
+export class OrdersModule {}

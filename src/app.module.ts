@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EnvConfig } from './config/app.config';
 import { FeatureModule } from './feature.module';
-import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -18,7 +17,6 @@ import { ProductsModule } from './products/products.module';
       isGlobal: true,
     }),
     FeatureModule,
-    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,6 +7,9 @@ export class ProductsController {
 
   @Get('all')
   async getAllProducts() {
-    return 'products';
+    const products = await this.shopifyService.getProductsByCollection(
+      439164502326,
+    );
+    return products;
   }
 }

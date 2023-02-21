@@ -42,27 +42,19 @@ export class ShopifyService {
         data: {
           query: `query {
             collection(id: "gid://shopify/Collection/${collectionId}") {
-              id
-              title
-    					metafields(first: 10) {
-                nodes {
-                  key
-                  value
-                }
-              }
               products(first: 200) {
                 nodes {
                   id
                   title 
-                  vendor
+                  tags
                   totalInventory
                   tracksInventory
-                  priceRangeV2 {          
-                    maxVariantPrice {
+                  prices: priceRangeV2 {          
+                    max: maxVariantPrice {
                       amount
                       currencyCode
                     }
-                    minVariantPrice {
+                    min: minVariantPrice {
                       amount
                       currencyCode
                     }
@@ -80,6 +72,57 @@ export class ShopifyService {
         };
       }
       return product?.body?.data.collection;
+    } catch (err) {
+      return {
+        error: true,
+        message: err.message,
+      };
+    }
+  }
+
+  /**
+   * consult the products of a collection
+   * @param collectionId
+   * @returns object
+   */
+  async getAllOrders() {
+    try {
+      this.settingQL();
+      const orders = await this.shopify.query({
+        data: {
+          query: `query {
+            orders(first: 10) {
+              nodes {
+                id
+                email          
+                lineItems(first: 10) {
+                  nodes {
+                    id
+                    title
+                    quantity
+                    image {
+                      url
+                      altText
+                    }
+                    total: originalTotalSet {
+                      shopMoney {
+                        amount
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }`,
+        },
+      });
+      if (!orders?.body?.data) {
+        return {
+          error: true,
+          message: '',
+        };
+      }
+      return orders?.body?.data;
     } catch (err) {
       return {
         error: true,

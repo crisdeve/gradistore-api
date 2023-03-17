@@ -49,6 +49,9 @@ export class ShopifyService {
                   tags
                   totalInventory
                   tracksInventory
+                  featuredImage {
+                    url
+                  }
                   prices: priceRangeV2 {          
                     max: maxVariantPrice {
                       amount
